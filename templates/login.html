@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div style="text-align: center">
+<img style="height: 340px; width: 340px" id="qrcode" src="https://login.weixin.qq.com/qrcode/{{ QR_code }}" alt="二维码">
+</div>
+<script src="/static/jquery-3.3.1.min.js"></script>
+<script>
+    $(function(){
+        check_code()
+    });
+    function check_code(){
+        $.ajax({
+            url:'check-code.html',
+            type:'GET',
+            dataType:'JSON',
+            success:function (arg) {
+                if(arg.code==408){
+                    console.log(408);
+                   check_code();
+
+                }else if(arg.code==201){
+                    console.log(201);
+                    $('#qrcode').attr('src',arg.data);
+                    check_code();
+                }else if(arg.code==200){
+                    location.href = '/user.html'
+
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>
+
+
